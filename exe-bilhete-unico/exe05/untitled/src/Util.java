@@ -4,9 +4,11 @@ import java.text.DecimalFormat;
 
 import static javax.swing.JOptionPane.*;
 import static java.lang.Integer.parseInt;
+import static java.lang.Long.parseLong;
+import static java.lang.Double.parseDouble;
 
 public class Util {
-    private  BilheteUnico[] bilhete=new BilheteUnico[2];
+    private  BilheteUnico[] bilhete=new BilheteUnico[3];
     private int index=0;
     public  void menuPrincipal() {
 
@@ -22,6 +24,9 @@ public class Util {
                 switch (opcao){
                     case 1:
                         menuAdministrador();
+                        break;
+                    case 2:
+                        menuUsuario();
                         break;
 
 
@@ -76,6 +81,61 @@ public class Util {
          aux+="--------------------------------\n";
      }
      showMessageDialog(null,aux);
+    }
+    private void menuUsuario(){
+        int opcao;
+        String menu="1.saldo\n2.carregar bilhete\n3.passar na catraca\n4.sair";
+        do{
+            opcao=parseInt(showInputDialog(menu));
+
+            if(opcao<1||opcao>4){
+                showMessageDialog(null,"opcao invalida"); }
+            else{
+                switch (opcao){
+                    case 1:
+                        carregarBilhete();
+                        break;
+                    case 2:
+                        consultarSaldo();
+                        break;
+                    case 3:
+                        passarNaCatraca();
+                        break;
+                }
+            }
+        } while(opcao!=4);
+    }
+    private void carregarBilhete(){
+       int posicao=pesquisar();
+       double valor;
+       if(posicao!=-1){
+           valor=parseDouble(showInputDialog("valor da recarga"));
+           bilhete[posicao].carregarB(valor);
+       }
+    }
+    private void consultarSaldo(){
+        int posicao=pesquisar();
+        if(posicao!=-1){
+            showMessageDialog(null,"saldo R$"+bilhete[posicao].consultarSaldo());
+        }
+    }
+    private void passarNaCatraca(){
+        int posicao=pesquisar();
+        if(posicao!=-1){
+           bilhete[posicao].pagarCatraca();
+        }
+    }
+    private int pesquisar(){
+        int posicao=-1;
+        long cpf=parseLong(showInputDialog("CPF:"));
+        for(int i=0;i<index;i++){
+            if(bilhete[i].usuario.cpf==cpf){
+                posicao=i;
+                return posicao;
+            }
+        }
+        showMessageDialog(null,"cpf nao encontrado");
+        return posicao;
     }
 
 }
