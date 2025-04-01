@@ -49,6 +49,10 @@ public class Util {
                     case 2:
                         listarBilhete();
                         break;
+                    case 3:
+                        removerBilhete();
+                        break;
+
                 }
             }
         }while (opcao!=4);
@@ -136,6 +140,19 @@ public class Util {
         }
         showMessageDialog(null,"cpf nao encontrado");
         return posicao;
+    }
+
+    private void removerBilhete(){
+        int resposta;
+        int posicao=pesquisar();
+        if(posicao!=-1){
+            resposta=showConfirmDialog(null,"tem crtz que deseja remover o bilhete?");
+            if(resposta==YES_OPTION){
+                bilhete[posicao]=bilhete[index-1];
+                index--;
+            }
+        }
+
     }
 
 }
